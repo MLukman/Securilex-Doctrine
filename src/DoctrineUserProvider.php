@@ -3,6 +3,7 @@
 namespace Securilex\Doctrine;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -75,7 +76,12 @@ class DoctrineUserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $this->loadUserByUsername($user->getUsername());
+        try {
+            return $this->loadUserByUsername($user->getUsername());
+        } catch (UsernameNotFoundException $e) {
+            throw new UnsupportedUserException(sprintf('User "%s" did not come from this provider (%s).',
+                $user->getUsername(), get_called_class()));
+        }
     }
 
     /**
