@@ -1,4 +1,15 @@
 <?php
+/**
+ * This file is part of the Securilex-Doctrine library for Silex framework.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @package Securilex\Doctrine
+ * @author Muhammad Lukman Nasaruddin <anatilmizun@gmail.com>
+ * @link https://github.com/MLukman/Securilex-Doctrine Securilex-Doctrine Github
+ * @link https://packagist.org/packages/mlukman/securilex-doctrine Securilex-Doctrine Packagist
+ */
 
 namespace Securilex\Doctrine;
 
@@ -8,6 +19,10 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * DoctrineUserProvider loads user accounts from database using Doctrine ORM library. 
+ * The entity that represents user accounts is required to implement UserInterface.
+ */
 class DoctrineUserProvider implements UserProviderInterface
 {
     const NOT_FOUND = 'Username "%s" does not exist.';
@@ -36,6 +51,13 @@ class DoctrineUserProvider implements UserProviderInterface
      */
     protected $additionalCriteria;
 
+    /**
+     * Construct an instance.
+     * @param EntityManager $em The Doctrine ORM Entity Manager
+     * @param string $userClass The fully qualified name of the entity class for user account
+     * @param string $usernameColumn The column name that stores the username
+     * @param array $additionalCriteria Any additional criteria to further filter the query of the entity
+     */
     public function __construct(EntityManager $em, $userClass,
                                 $usernameColumn = 'username',
                                 array $additionalCriteria = array())
