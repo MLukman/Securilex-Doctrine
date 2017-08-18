@@ -13,7 +13,6 @@
 
 namespace Securilex\Doctrine;
 
-use Securilex\Authentication\User\MutableUserInterface;
 use Securilex\Authentication\User\MutableUserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -26,9 +25,9 @@ class DoctrineMutableUserProvider extends DoctrineUserProvider implements Mutabl
 
     /**
      * Save the user.
-     * @param MutableUserInterface $user The user account instance
+     * @param UserInterface $user The user account instance
      */
-    public function saveUser(MutableUserInterface $user)
+    public function saveUser(UserInterface $user)
     {
         $this->em->persist($user);
         $this->em->flush($user);
